@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Caching Script</title>
+</head>
+<body>
+    <script>
+        // Function to fetch data from API and cache into a JSON file
+        const fetchAndCacheData = async () => {
+            const apiUrl = 'https://tag.rc24.xyz/api/user/789872551731527690'; // Replace with your API URL
+            const cacheUrl = 'https://your-github-repo-url/cache.json'; // Replace with your cache JSON file URL
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch API data');
+                }
+
+                const data = await response.json();
+
+                // Cache the JSON data
+                const cacheResponse = await fetch(cacheUrl, {
+                    method: 'PUT', // Use PUT method to update the cache file
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!cacheResponse.ok) {
+                    throw new Error('Failed to update cache file');
+                }
+
+                console.log('API data cached successfully');
+            } catch (error) {
+                console.error('Error caching API data:', error.message);
+            }
+        };
+
+        // Call fetchAndCacheData function on page load
+        fetchAndCacheData();
+    </script>
+</body>
+</html>
